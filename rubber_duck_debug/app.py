@@ -19,7 +19,7 @@ def test_openai():
     try:
         response = client.chat.completions.create(
             model = 'gpt-3.5-turbo',
-            messages = [{"role": "user", "content": "Say hello in one word"}],
+            messages = [{"role": "user", "content": "I'm a programmer with a bug. Introduce yourself as my rubber duck helper."}],
             max_tokens = 10
         )
         return f"OpenAI says: {response.choices[0].message.content}"
