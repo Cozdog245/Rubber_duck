@@ -1,4 +1,4 @@
-body{
+body {
     background-color: #1a1a1a;
     color: #e0e0e0;
     font-family: 'Courier New' , monospace;
@@ -6,19 +6,45 @@ body{
     padding: 20px;
 }
 
-h1{
+h1 {
     color: #00ff00;
     text-align: centre;
 }
 
-.duck_container{
+.duck_container {
     display: flex;
     justify-content: center;
 }
 
-.ascii_duck{
+.ascii_duck {
     text-align: left;
     color: #FFD700;
 }
 .duck-eye{color: #FFFFFF;}
 .duck-beak{color: #FF6B35;}
+
+#chat-container {
+    max-width: 600px;
+    margin: 20px auto;
+    min-height: 300px;
+}
+
+#chat-history {
+    background-color: #2a2a2a;
+    border: 1px solid #444;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+    min-height: 200px;
+    overflow-y: auto;
+}
+
+.user-message {
+    color:#00ff00;
+    margin-bottom: 10px;
+}
+
+.duck-message {
+    color: #FFD700;
+    margin-bottom: 15px;
+}
