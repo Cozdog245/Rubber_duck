@@ -27,9 +27,58 @@
     <div id="input-section">
         <p>What is troubling you young one</p>
         <form id="chat-form" action="/chat" method="POST">
-            <input type = 'text' name = 'message'>
+            <input type = 'text' name = 'message' id = 'message-input'>
             <button type = 'submit'>Submit</button>
         </form>
-    </div>    
+    </div>  
+    
+    <script> 
+    document.getElementById('chat-form').addEventListener('submit', function(e) {
+        e.preventDefault(); //prevent page reload
+
+        const messageInput = document.getElementById('message-input');
+        const userMessage = messageInput.value.trim();
+
+        if (userMessage === '') return; // Don't send empty message
+
+        addMessageToChat('You: ' + userMessage, 'user-message'); //add user message to chat
+
+        messageInput.value = ''; //clear input
+
+        sendToDuck(userMessage);
+    });
+
+   function addMessageToChat(message, className){
+    const chatHistory = document.getElementById('chat-history');
+    const messageDiv = document.createElement('div');
+    messageDiv.className = className;
+    messageDiv.textContent = message;
+    chatHistory.appendChild(messageDiv);
+    chatHistory.scrollTop = chatHistory.scrollHeight; //auto-scroll
+   } 
+
+   function sendToDuck(userMessage) {
+    addMessageToChat('Duck is thinking...', 'duck-message');
+
+    fetch('/chat', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: 'message=' + encodeURIComponent(userMessage)
+    })
+    .then(Response => Response.json())
+    .then(data => {
+        const chatHistory = document.getElementById('chat-history');
+        chatHistory.removeChild(chatHistory.lastChild);
+
+        addMessageToChat('🦆 ' + data.response, 'duck-message');
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        addMessageToChat("sorry, i had trouble responding!", 'duck-message');
+    });
+   }
+    </script>
 </body>
 </html>

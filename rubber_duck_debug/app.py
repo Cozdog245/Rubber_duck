@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 load_dotenv()
 client = openai.OpenAI(api_key=os.getenv("OPENAI_API_KEY")) #Gets api key from env file
 
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 
 app = Flask(__name__)
 
@@ -38,7 +38,7 @@ def chat():
         )
 
     duck_response = response.choices[0].message.content
-    return f'Duck says: {duck_response}'
+    return jsonify({'response': duck_response})
 
 if __name__ == '__main__':
     app.run()
