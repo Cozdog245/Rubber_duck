@@ -8,7 +8,7 @@ body {
 
 h1 {
     color: #00ff00;
-    text-align: centre;
+    text-align: center;
 }
 /* duck and text box styles*/
 .duck_container {
@@ -79,4 +79,8 @@ h1 {
     border-color: #00ff00;
     outline: none;
     box-shadow: 0 0 5px rgba(0, 255, 0, 0.3);
+}
+
+button[type = 'submit']{
+    display: none;
 }
