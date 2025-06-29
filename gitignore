@@ -2,3 +2,9 @@ rubber_duck_debug/.env
 rubber_duck_debug/__pycache__/
 rubber_duck_debug/*.pyc
 rubber_duck_debug/venv/
+.venv/
+venv/
+rubber_duck_debug/.venv/
+__pycache__/
+*.pyc
+.env
