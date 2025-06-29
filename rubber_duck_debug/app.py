@@ -5,9 +5,10 @@ from dotenv import load_dotenv
 load_dotenv()
 client = openai.OpenAI(api_key=os.getenv("OPENAI_API_KEY")) #Gets api key from env file
 
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, session
 
 app = Flask(__name__)
+app.secret_key = 'your-secret-key-here'
 
 @app.route('/')
 def hello_world():
@@ -28,16 +29,26 @@ def test_openai(): # to pull information from openai
 @app.route('/chat', methods=['POST'])
 def chat():
     user_message = request.form['message']
+
+    if 'chat_history' not in session:
+        session['chat_history'] = []
+
+    session['chat_history'].append({'role': 'user', 'content': user_message})
+
+    messages= [
+            {'role': 'system', 'content': 'You are a helpful rubber duck for debugging. Ask one clarifying question to help them think through their problem. Be encouraging and friendly.'},
+    ] + session['chat_history'][-10:]
+
     response = client.chat.completions.create(
         model = 'gpt-3.5-turbo',
-        messages=[
-            {'role': 'system', 'content': 'You are a helpful rubber duck for debugging. Ask one clarifying question to help them think through their problem. Be encouraging and friendly.'},
-            {'role': 'user', 'content': user_message}
-        ],
-        max_tokens=100
-        )
+        messages = messages,
+        max_tokens=200
+    )
 
     duck_response = response.choices[0].message.content
+
+    session['chat_history'].append({'role': 'assistant', 'content': duck_response})
+
     return jsonify({'response': duck_response})
 
 if __name__ == '__main__':
